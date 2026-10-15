@@ -7,28 +7,34 @@
   <title>Lukáš "Kyci" Kycelt | Portfolio</title>
   <style>
     :root {
-      --bg: #090909;
-      --panel: rgba(17, 17, 17, 0.9);
-      --panel-2: rgba(255,255,255,0.02);
-      --text: #f2f2f2;
-      --muted: #b3b8c3;
+      --bg: #07090b;
+      --bg-2: #10151a;
+      --panel: rgba(15, 18, 22, 0.9);
+      --panel-strong: rgba(23, 28, 34, 0.98);
+      --panel-soft: rgba(255,255,255,0.02);
+      --text: #edf3f7;
+      --muted: #a7b1bc;
       --accent: #d62828;
-      --accent-2: #ff6a6a;
-      --matrix: #0afc6d;
+      --accent-2: #ff5d5d;
+      --accent-soft: rgba(214, 40, 40, 0.15);
+      --green: #1cff6a;
+      --green-soft: rgba(28, 255, 106, 0.12);
       --border: rgba(255,255,255,0.08);
       --shadow: rgba(0,0,0,0.45);
-      --nav-bg: rgba(10,10,10,0.72);
-      --card: rgba(255,255,255,0.02);
-      --success: #00d36d;
+      --nav-bg: rgba(10, 12, 14, 0.7);
+      --radius: 22px;
       color-scheme: dark;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(214,40,40,0.08), transparent 18%),
+        radial-gradient(circle at 80% 10%, rgba(28,255,106,0.06), transparent 12%),
+        linear-gradient(180deg, #07090b 0%, #0d1115 100%);
       color: var(--text);
       line-height: 1.6;
       font-size: 16px;
@@ -36,9 +42,8 @@
     }
 
     a { color: inherit; }
-    img { max-width: 100%; display: block; }
+    img { display:block; max-width:100%; }
 
-    /* Matrix canvas with subtle red accent overlay */
     #matrix-canvas {
       position: fixed;
       inset: 0;
@@ -46,39 +51,35 @@
       width: 100%;
       height: 100%;
       display: block;
-      opacity: 0.95;
-      background:
-        radial-gradient(circle at 92% 10%, rgba(214,40,40,0.06), transparent 10%),
-        radial-gradient(circle at 8% 88%, rgba(214,40,40,0.04), transparent 12%),
-        radial-gradient(circle at 50% 0%, rgba(214,40,40,0.02), transparent 5%),
-        radial-gradient(circle at top, rgba(17,17,17,0.7), rgba(0,0,0,1) 65%);
       pointer-events: none;
+      opacity: 0.85;
+      background: radial-gradient(circle at 50% 0%, rgba(214,40,40,0.06), transparent 28%);
     }
 
     .page {
       position: relative;
       z-index: 1;
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 20px 18px 60px;
+      padding: 20px 18px 48px;
     }
 
     .nav {
       position: sticky;
-      top: 10px;
-      z-index: 10;
+      top: 12px;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 14px 18px;
-      margin: 0 auto 20px;
+      padding: 12px 18px;
+      margin: 0 auto 24px;
       background: var(--nav-bg);
       border: 1px solid var(--border);
       border-radius: 18px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 30px var(--shadow);
-      max-width: 1100px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      max-width: 1180px;
     }
 
     .brand {
@@ -94,15 +95,14 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
       font-weight: 800;
-      letter-spacing: 0.06em;
-      box-shadow: 0 10px 24px rgba(214, 40, 40, 0.35);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 30px rgba(214,40,40,0.35);
+      color: #fff;
     }
 
     .brand-name {
-      font-size: 1.05rem;
+      font-size: 1.03rem;
       font-weight: 700;
       white-space: nowrap;
     }
@@ -111,14 +111,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
       flex-wrap: wrap;
+      gap: 18px;
     }
 
     .nav-links a {
       text-decoration: none;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.93rem;
       transition: color 0.2s ease;
     }
 
@@ -127,23 +127,17 @@
       color: var(--text);
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 10px 14px;
-      border-radius: 12px;
+      border-radius: 14px;
       text-decoration: none;
-      font-weight: 600;
       border: 1px solid var(--border);
       background: transparent;
       color: var(--text);
+      font-weight: 700;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
@@ -151,54 +145,53 @@
     .btn:hover,
     .btn:focus-visible {
       transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
     }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       border: none;
-      color: white;
+      color: #fff;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: 1.5fr 0.9fr;
+      grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
       gap: 22px;
       align-items: stretch;
-      padding: 24px 0 12px;
+      padding-top: 8px;
     }
 
     .card {
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: 0 16px 40px var(--shadow);
+      border-radius: var(--radius);
+      box-shadow: 0 16px 36px var(--shadow);
     }
 
     .hero-copy {
-      padding: 28px 26px;
+      padding: 30px 28px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 240px;
+      min-height: 280px;
     }
 
     .eyebrow {
       display: inline-block;
-      width: fit-content;
+      margin-bottom: 12px;
       font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--matrix);
-      margin-bottom: 10px;
+      color: var(--green);
+      font-weight: 700;
     }
 
     h1 {
-      font-size: clamp(2.2rem, 4vw, 4rem);
+      font-size: clamp(2.3rem, 4vw, 4.5rem);
       line-height: 1.08;
-      margin: 0 0 12px;
       letter-spacing: -0.06em;
+      margin: 0 0 12px;
     }
 
     .hero-copy p {
@@ -212,31 +205,33 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      margin-top: 8px;
     }
 
     .mini-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-      margin-top: 12px;
+      margin-top: 18px;
     }
 
     .mini-stat {
-      background: rgba(255,255,255,0.02);
+      padding: 14px 12px;
       border: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
       border-radius: 16px;
-      padding: 16px 14px;
     }
 
     .mini-stat strong {
       display: block;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       margin-bottom: 2px;
+      color: var(--text);
     }
 
     .mini-stat span {
-      color: var(--muted);
       font-size: 0.82rem;
+      color: var(--muted);
     }
 
     .profile-card {
@@ -244,52 +239,54 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 240px;
+      min-height: 280px;
     }
 
     .avatar-wrap {
-      width: 120px;
-      height: 120px;
+      width: 124px;
+      height: 124px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(214,40,40,0.8), rgba(255,106,106,0.8));
-      box-shadow: 0 18px 34px rgba(214,40,40,0.35);
+      margin: 0 auto 18px;
       display: grid;
       place-items: center;
-      margin: 0 auto 18px;
+      background: linear-gradient(135deg, rgba(214,40,40,0.9), rgba(255,93,93,0.9));
+      color: white;
       font-size: 2.4rem;
       font-weight: 800;
-      border: 2px solid rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 18px 34px rgba(214,40,40,0.35);
     }
 
     .profile-card h3 {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       text-align: center;
+      font-size: 1.4rem;
     }
 
     .profile-card p {
-      margin: 0;
       color: var(--muted);
       text-align: center;
+      margin: 0;
     }
 
     .contact-inline {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
     .tag {
       display: inline-flex;
-      align-items: center;
-      padding: 8px 10px;
+      padding: 8px 12px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
       color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
     .section {
@@ -300,25 +297,19 @@
       display: flex;
       align-items: end;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 16px;
     }
 
     .section-header h2 {
       margin: 0;
-      font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+      font-size: clamp(1.7rem, 2.2vw, 2.25rem);
       letter-spacing: -0.04em;
     }
 
     .section-header span {
       color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1.4fr 0.9fr;
-      gap: 20px;
+      font-size: 0.9rem;
     }
 
     .content-card {
@@ -326,8 +317,15 @@
     }
 
     .content-card p {
-      color: var(--muted);
       margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+      gap: 20px;
     }
 
     .skill-list {
@@ -338,13 +336,13 @@
     }
 
     .skill {
-      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px 12px;
+      background: rgba(255,255,255,0.02);
       color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .info-box {
@@ -356,8 +354,8 @@
     .info-row {
       display: flex;
       justify-content: space-between;
-      gap: 14px;
-      padding-bottom: 10px;
+      gap: 16px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -381,7 +379,6 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 10px;
     }
 
     .project {
@@ -393,7 +390,7 @@
 
     .project h3 {
       margin: 0 0 10px;
-      font-size: 1.08rem;
+      font-size: 1.12rem;
     }
 
     .project p {
@@ -409,19 +406,41 @@
       margin-top: 16px;
     }
 
-    .project .tag {
-      font-size: 0.72rem;
-      padding: 7px 9px;
-    }
-
     .future-card {
       padding: 24px 20px;
     }
 
     .future-card p {
-      color: var(--muted);
       margin: 0;
+      color: var(--muted);
       font-size: 1.02rem;
+    }
+
+    .sport-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .sport-card {
+      padding: 16px 14px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+
+    .sport-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .sport-card .muted-line {
+      color: var(--muted);
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 4px;
     }
 
     .contact-card {
@@ -430,9 +449,9 @@
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1.1fr;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 18px;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .contact-list {
@@ -466,12 +485,12 @@
     .contact-form input,
     .contact-form textarea {
       width: 100%;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.01);
-      color: var(--text);
       border-radius: 12px;
-      padding: 12px 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
       font: inherit;
+      padding: 12px 14px;
     }
 
     .contact-form textarea {
@@ -479,22 +498,19 @@
       resize: vertical;
     }
 
-    .contact-form button {
-      justify-self: start;
-    }
-
     footer {
       margin-top: 28px;
-      padding: 18px 0 0;
+      padding: 14px 0 0;
       text-align: center;
       color: var(--muted);
-      font-size: 0.96rem;
+      font-size: 0.94rem;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 930px) {
       .hero,
       .grid-2,
       .project-list,
+      .sport-grid,
       .contact-grid {
         grid-template-columns: 1fr;
       }
@@ -503,14 +519,9 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-
-      .nav-links {
-        width: 100%;
-        justify-content: center;
-      }
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 560px) {
       .page {
         padding-left: 12px;
         padding-right: 12px;
@@ -554,9 +565,7 @@
         <a href="#kontakt">Kontakt</a>
       </div>
 
-      <div class="nav-actions">
-        <button id="themeToggle" class="btn" type="button" aria-label="Přepnout režim">Světle/Tmavě</button>
-      </div>
+      <button id="themeToggle" class="btn" type="button" aria-label="Přepnout režim">Světle/Tmavě</button>
     </nav>
 
     <header class="hero" id="top">
@@ -564,9 +573,9 @@
         <span class="eyebrow">Portfolio</span>
         <h1>Když něco dělám, dělám to naplno.</h1>
         <p>
-          Jmenuji se Lukáš Kycelt, známý jako Kyci. Studuji 4. ročník střední školy v Hradci Králové,
-          obor elektrotechnika zaměřený na automatizaci. Baví mě sport, technologie a práce, která má
-          praktický význam. Rád se rozvíjím, hledám nové výzvy a chci se posouvat vpřed v oblasti automatizace a IT.
+          Jmenuji se Lukáš Kycelt, známý jako Kyci. Studuji 4. ročník na střední škole v Hradci Králové,
+          obor elektrotechnika zaměřený na automatizaci. Baví mě sport, technologie, programování a práce, která má skutečný význam.
+          Rád se učím, tvořím a posouvám se dál v oblasti IT a automatizace.
         </p>
 
         <div class="hero-actions">
@@ -594,7 +603,7 @@
         <div>
           <div class="avatar-wrap" aria-hidden="true">K</div>
           <h3>Kyci</h3>
-          <p>Student elektrotechniky zaměřený na automatizaci, sporty a tvoření moderních webů.</p>
+          <p>Student elektrotechniky zaměřený na automatizaci, moderní technologie a sportovní výkon.</p>
         </div>
 
         <div class="contact-inline">
@@ -612,7 +621,7 @@
       <p>
         Baví mě sport, především stolní tenis, fotbal a motoristické sporty jako F1 a hokej. Mým koníčkem je stolní tenis,
         ve kterém jsem získal několik medailí. Největším úspěchem je 2. místo v krajském přeboru v mé kategorii.
-        Rád se učím nové věci, pracuji s technologií a chci se dál rozvíjet v oboru automatizace a průmyslové elektroniky.
+        Nejvíc mě baví práce, kde se něco učí, vyvíjí a zlepšuje. Chci dál rozvíjet své dovednosti v automatizaci, technologiích a praktických projektech.
       </p>
     </section>
 
@@ -646,7 +655,7 @@
 
       <aside class="card info-box" aria-label="Rychlé údaje">
         <div class="section-header" style="margin-bottom: 0;">
-          <h2 style="font-size:1.35rem;">Rychlé info</h2>
+          <h2 style="font-size:1.3rem;">Rychlé info</h2>
         </div>
 
         <div class="info-row">
@@ -661,7 +670,7 @@
 
         <div class="info-row">
           <strong>Motto</strong>
-          <span>Když něco dělám, dělám to naplno.</span>
+          <span>Když něco dělám, tak to dělám naplno.</span>
         </div>
 
         <div class="info-row">
@@ -705,8 +714,7 @@
         <article class="project">
           <h3>Elektronika a automatizace</h3>
           <p>
-            S prací s Arduino, FluidSIM a ProfiCAD jsem se seznámil během školních projektů a cvičení,
-            kde jsem získal základy praktické automatizace a elektronických systémů.
+            Seznámil jsem se s Arduino, FluidSIM a ProfiCAD a získal základy praktické automatizace a elektronických systémů.
           </p>
           <div class="project-footer">
             <span class="tag">Hardware</span>
@@ -731,26 +739,25 @@
       <div class="section-header">
         <h2>Sport — oblíbené týmy</h2>
       </div>
-      <p class="muted">Moje oblíbené týmy a jezdci v jednotlivých sportech:</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
-        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(214,40,40,0.04), rgba(255,255,255,0.01));border:1px solid rgba(214,40,40,0.12)">
+      <div class="sport-grid">
+        <div class="sport-card">
           <strong>Formule 1</strong>
-          <div class="muted">Tým: Ferrari</div>
-          <div class="muted">Jezdec: Charles Leclerc</div>
+          <span class="muted-line">Tým: Ferrari</span>
+          <span class="muted-line">Jezdec: Charles Leclerc</span>
         </div>
 
-        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">
+        <div class="sport-card">
           <strong>Hokej</strong>
-          <div class="muted">New York Rangers</div>
-          <div class="muted">Sparta Praha</div>
-          <div class="muted">Mountfield HK (Hradec Králové)</div>
+          <span class="muted-line">New York Rangers</span>
+          <span class="muted-line">Sparta Praha</span>
+          <span class="muted-line">Hradec Králové</span>
         </div>
 
-        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">
+        <div class="sport-card">
           <strong>Fotbal</strong>
-          <div class="muted">Sparta Praha</div>
-          <div class="muted">FC Barcelona</div>
-          <div class="muted">Liverpool FC</div>
+          <span class="muted-line">Sparta Praha</span>
+          <span class="muted-line">FC Barcelona</span>
+          <span class="muted-line">Liverpool FC</span>
         </div>
       </div>
     </section>
@@ -798,25 +805,23 @@
     themeToggle.addEventListener('click', () => {
       const dark = getComputedStyle(root).getPropertyValue('color-scheme') === 'dark';
       if (dark) {
-        root.style.setProperty('--bg', '#f3f3f3');
-        root.style.setProperty('--panel', 'rgba(255,255,255,0.9)');
-        root.style.setProperty('--panel-2', 'rgba(0,0,0,0.02)');
-        root.style.setProperty('--text', '#101010');
-        root.style.setProperty('--muted', '#4b4f59');
-        root.style.setProperty('--matrix', '#0f8b49');
-        root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
+        root.style.setProperty('--bg', '#f4f5f7');
+        root.style.setProperty('--bg-2', '#eef2f6');
+        root.style.setProperty('--text', '#111827');
+        root.style.setProperty('--muted', '#475569');
+        root.style.setProperty('--panel', 'rgba(255,255,255,0.75)');
         root.style.setProperty('--nav-bg', 'rgba(255,255,255,0.76)');
-        root.style.setProperty('--card', 'rgba(0,0,0,0.02)');
+        root.style.setProperty('--border', 'rgba(15,23,42,0.08)');
+        root.style.setProperty('--card', 'rgba(255,255,255,0.8)');
         root.style.setProperty('color-scheme', 'light');
       } else {
-        root.style.setProperty('--bg', '#090909');
-        root.style.setProperty('--panel', 'rgba(17, 17, 17, 0.9)');
-        root.style.setProperty('--panel-2', 'rgba(255,255,255,0.02)');
-        root.style.setProperty('--text', '#f2f2f2');
-        root.style.setProperty('--muted', '#b3b8c3');
-        root.style.setProperty('--matrix', '#0afc6d');
+        root.style.setProperty('--bg', '#07090b');
+        root.style.setProperty('--bg-2', '#10151a');
+        root.style.setProperty('--text', '#edf3f7');
+        root.style.setProperty('--muted', '#a7b1bc');
+        root.style.setProperty('--panel', 'rgba(15, 18, 22, 0.9)');
+        root.style.setProperty('--nav-bg', 'rgba(10, 12, 14, 0.7)');
         root.style.setProperty('--border', 'rgba(255,255,255,0.08)');
-        root.style.setProperty('--nav-bg', 'rgba(10,10,10,0.72)');
         root.style.setProperty('--card', 'rgba(255,255,255,0.02)');
         root.style.setProperty('color-scheme', 'dark');
       }
@@ -854,13 +859,11 @@
           const x = i * fontSize;
           const y = drops[i] * fontSize;
 
-          // primary green stream
-          ctx.fillStyle = 'rgba(10, 252, 109, 0.9)';
+          ctx.fillStyle = 'rgba(28, 255, 106, 0.9)';
           ctx.fillText(text, x, y);
 
-          // subtle red accent glow occasionally
           if (Math.random() > 0.995) {
-            ctx.fillStyle = 'rgba(214,40,40,0.18)';
+            ctx.fillStyle = 'rgba(214, 40, 40, 0.2)';
             ctx.fillText(text, x + 1, y + 1);
           }
 
@@ -880,12 +883,13 @@
       if (!reducedMotion) {
         requestAnimationFrame(loop);
       } else {
-        // fallback static dots
         ctx.fillStyle = '#000';
         ctx.fillRect(0,0,w,h);
-        ctx.fillStyle = 'rgba(10,252,109,0.6)';
+        ctx.fillStyle = 'rgba(28,255,106,0.7)';
         ctx.font = fontSize + 'px monospace';
-        for (let i=0;i<1000;i++) ctx.fillText(chars[Math.floor(Math.random()*chars.length)], Math.random()*w, Math.random()*h);
+        for (let i = 0; i < 1000; i++) {
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], Math.random() * w, Math.random() * h);
+        }
       }
 
       window.addEventListener('resize', () => {

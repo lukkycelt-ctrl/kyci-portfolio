@@ -2,334 +2,896 @@
 <html lang="cs">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow, noarchive" />
-  <title>Lukáš "Kyci" Kycelt — Portfolio</title>
-
+  <title>Lukáš "Kyci" Kycelt | Portfolio</title>
   <style>
-    :root{
-      --bg:#0b0b0b;
-      --panel:#0f1112;
-      --muted:#9aa0a6;
-      --accent:#c62828;
-      --matrix:#00ff66;
-      --glass: rgba(255,255,255,0.03);
-      --radius:12px;
+    :root {
+      --bg: #090909;
+      --panel: rgba(17, 17, 17, 0.9);
+      --panel-2: rgba(255,255,255,0.02);
+      --text: #f2f2f2;
+      --muted: #b3b8c3;
+      --accent: #d62828;
+      --accent-2: #ff6a6a;
+      --matrix: #0afc6d;
+      --border: rgba(255,255,255,0.08);
+      --shadow: rgba(0,0,0,0.45);
+      --nav-bg: rgba(10,10,10,0.72);
+      --card: rgba(255,255,255,0.02);
+      --success: #00d36d;
       color-scheme: dark;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:#e6e6e6;
-      line-height:1.45;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    #matrix-canvas{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      width:100%;
-      height:100%;
-      display:block;
-      background:linear-gradient(180deg,#030303 0%, #050505 80%);
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+      overflow-x: hidden;
     }
 
-    .wrap{
-      position:relative;
-      z-index:5;
-      max-width:1000px;
-      margin:30px auto;
-      padding:28px;
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* Matrix canvas with subtle red accent overlay */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0.95;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(214,40,40,0.06), transparent 10%),
+        radial-gradient(circle at 8% 88%, rgba(214,40,40,0.04), transparent 12%),
+        radial-gradient(circle at 50% 0%, rgba(214,40,40,0.02), transparent 5%),
+        radial-gradient(circle at top, rgba(17,17,17,0.7), rgba(0,0,0,1) 65%);
+      pointer-events: none;
     }
 
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-    }
-    .brand{
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .avatar{
-      width:64px;height:64px;border-radius:50%;
-      background:linear-gradient(145deg,#2b2b2b,#111);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:700;color:var(--accent);font-size:20px;
-      box-shadow:0 4px 20px rgba(0,0,0,.6);
-    }
-    h1{margin:0;font-size:1.6rem}
-    p.lead{margin:6px 0 0;color:var(--muted);font-size:.95rem}
-
-    .controls{display:flex;gap:10px;align-items:center;}
-    .btn{
-      background:transparent;border:1px solid rgba(255,255,255,0.06);
-      color:inherit;padding:8px 12px;border-radius:10px;cursor:pointer;
-      transition:all .18s;
-    }
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.6)}
-    .btn.accent{background:linear-gradient(90deg,var(--accent),#ff6b6b);border:none;color:#fff}
-
-    main{
-      margin-top:28px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:20px;
-      backdrop-filter: blur(6px);
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 18px 60px;
     }
 
-    section.panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;border-radius:var(--radius);
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 6px 24px rgba(0,0,0,.6);
+    .nav {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      margin: 0 auto 20px;
+      background: var(--nav-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px var(--shadow);
+      max-width: 1100px;
     }
 
-    .grid-2{
-      display:grid;gap:18px;grid-template-columns:1fr 320px;
-    }
-    @media(max-width:900px){.grid-2{grid-template-columns:1fr}}
-    .skills-list{display:flex;flex-wrap:wrap;gap:8px}
-    .skill{
-      background:var(--glass);padding:8px 10px;border-radius:10px;font-size:.9rem;color:var(--muted);
-      border:1px solid rgba(255,255,255,0.02)
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .projects{display:flex;flex-direction:column;gap:12px}
-    .project{
-      padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03)
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      box-shadow: 0 10px 24px rgba(214, 40, 40, 0.35);
     }
-    .project h4{margin:0 0 6px 0}
-    .badge{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:.8rem;color:var(--muted)}
 
-    footer{margin-top:20px;color:var(--muted);font-size:.9rem;text-align:center;padding:12px 0}
-
-    .contact-links{display:flex;gap:10px;flex-wrap:wrap}
-    a.link{color:var(--accent);text-decoration:none;border-bottom:1px dashed rgba(255,255,255,0.03);padding-bottom:2px}
-
-    .switch{display:inline-flex;align-items:center;gap:8px}
-    .toggle{
-      width:44px;height:24px;border-radius:24px;background:#222;position:relative;border:1px solid rgba(255,255,255,0.04);
+    .brand-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .knob{position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .18s}
 
-    .muted{color:var(--muted);font-size:.95rem}
-    .meta{font-size:.85rem;color:var(--muted)}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
 
-    a:focus, button:focus {outline:2px dashed var(--accent);outline-offset:3px}
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.92rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border: none;
+      color: white;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: 22px;
+      align-items: stretch;
+      padding: 24px 0 12px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 16px 40px var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 240px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      width: fit-content;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--matrix);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .mini-stat {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 2px;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .profile-card {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 240px;
+    }
+
+    .avatar-wrap {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(214,40,40,0.8), rgba(255,106,106,0.8));
+      box-shadow: 0 18px 34px rgba(214,40,40,0.35);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+      font-size: 2.4rem;
+      font-weight: 800;
+      border: 2px solid rgba(255,255,255,0.18);
+    }
+
+    .profile-card h3 {
+      margin: 0 0 10px;
+      text-align: center;
+    }
+
+    .profile-card p {
+      margin: 0;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .contact-inline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-header span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 20px;
+    }
+
+    .content-card {
+      padding: 22px 20px;
+    }
+
+    .content-card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .skill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .info-box {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-row strong {
+      color: var(--text);
+      font-size: 0.98rem;
+    }
+
+    .info-row span {
+      color: var(--muted);
+      text-align: right;
+      max-width: 180px;
+    }
+
+    .project-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .project {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .project h3 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+    }
+
+    .project p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .project-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .project .tag {
+      font-size: 0.72rem;
+      padding: 7px 9px;
+    }
+
+    .future-card {
+      padding: 24px 20px;
+    }
+
+    .future-card p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    .contact-card {
+      padding: 24px 20px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .contact-item {
+      padding: 16px 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      border-radius: 14px;
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-item a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      justify-self: start;
+    }
+
+    footer {
+      margin-top: 28px;
+      padding: 18px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-2,
+      .project-list,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .profile-card,
+      .content-card,
+      .future-card,
+      .contact-card {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .nav {
+        position: static;
+      }
+    }
   </style>
 </head>
 <body>
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
 
-  <div class="wrap" role="main">
-    <header>
+  <div class="page">
+    <nav class="nav" aria-label="Navigace">
       <div class="brand">
-        <div class="avatar" aria-hidden="true">K</div>
-        <div>
-          <h1>Lukáš Kycelt <span class="muted">("Kyci")</span></h1>
-          <p class="lead">Když něco dělám, dělám to naplno.</p>
-        </div>
+        <div class="brand-badge">K</div>
+        <div class="brand-name">Lukáš "Kyci" Kycelt</div>
       </div>
 
-      <div class="controls" aria-hidden="false">
-        <button id="themeToggle" class="btn" aria-pressed="false">Světle/Tmavě</button>
-        <a class="btn" href="#kontakt">Kontakt</a>
+      <div class="nav-links">
+        <a href="#o-mne">O mně</a>
+        <a href="#dovednosti">Dovednosti</a>
+        <a href="#projekty">Projekty</a>
+        <a href="#budoucnost">Budoucnost</a>
+        <a href="#sport">Sport</a>
+        <a href="#kontakt">Kontakt</a>
       </div>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn" type="button" aria-label="Přepnout režim">Světle/Tmavě</button>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <section class="card hero-copy">
+        <span class="eyebrow">Portfolio</span>
+        <h1>Když něco dělám, dělám to naplno.</h1>
+        <p>
+          Jmenuji se Lukáš Kycelt, známý jako Kyci. Studuji 4. ročník střední školy v Hradci Králové,
+          obor elektrotechnika zaměřený na automatizaci. Baví mě sport, technologie a práce, která má
+          praktický význam. Rád se rozvíjím, hledám nové výzvy a chci se posouvat vpřed v oblasti automatizace a IT.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projekty">Moje projekty</a>
+          <a class="btn" href="#kontakt">Kontakt</a>
+        </div>
+
+        <div class="mini-stats" aria-label="Statistiky">
+          <div class="mini-stat">
+            <strong>4.</strong>
+            <span>Ročník</span>
+          </div>
+          <div class="mini-stat">
+            <strong>2.</strong>
+            <span>Krajské 2. místo</span>
+          </div>
+          <div class="mini-stat">
+            <strong>100%</strong>
+            <span>Motivace</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card profile-card" aria-label="Rychlé informace">
+        <div>
+          <div class="avatar-wrap" aria-hidden="true">K</div>
+          <h3>Kyci</h3>
+          <p>Student elektrotechniky zaměřený na automatizaci, sporty a tvoření moderních webů.</p>
+        </div>
+
+        <div class="contact-inline">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </aside>
     </header>
 
-    <main>
-      <section class="panel" id="o-mne">
+    <section class="section card content-card" id="o-mne">
+      <div class="section-header">
         <h2>O mně</h2>
-        <p>Jmenuji se Lukáš Kycelt, známý jako Kyci. Studuji 4. ročník na střední škole v Hradci Králové, obor elektrotechnika se zaměřením na automatizaci. Baví mě sport (fotbal, stolní tenis, F1, hokej) a zejména stolní tenis, ve kterém jsem získal několik medailí — mezi mé největší úspěchy patří 2. místo v krajském přeboru v mé kategorii. Mým cílem je dále se rozvíjet v oboru a najít práci v oblasti automatizace a průmyslové elektroniky.</p>
-      </section>
+      </div>
+      <p>
+        Baví mě sport, především stolní tenis, fotbal a motoristické sporty jako F1 a hokej. Mým koníčkem je stolní tenis,
+        ve kterém jsem získal několik medailí. Největším úspěchem je 2. místo v krajském přeboru v mé kategorii.
+        Rád se učím nové věci, pracuji s technologií a chci se dál rozvíjet v oboru automatizace a průmyslové elektroniky.
+      </p>
+    </section>
 
-      <div class="grid-2">
-        <section class="panel" id="dovednosti">
+    <section class="section grid-2" id="dovednosti">
+      <div class="card content-card">
+        <div class="section-header">
           <h2>Moje dovednosti</h2>
-          <div class="skills-list" aria-label="Seznam dovedností">
-            <span class="skill">HTML</span>
-            <span class="skill">CSS</span>
-            <span class="skill">JavaScript</span>
-            <span class="skill">Git / GitHub</span>
-            <span class="skill">FluidSIM</span>
-            <span class="skill">Arduino</span>
-            <span class="skill">RoboPlus</span>
-            <span class="skill">ProfiCAD</span>
-            <span class="skill">Word / PowerPoint / Excel</span>
-            <span class="skill">Pájení a měření</span>
-            <span class="skill">Čeština / Angličtina / Základy ruštiny</span>
-            <span class="skill">Figma / Canva / Photoshop</span>
-          </div>
-
-          <h3 style="margin-top:14px">Jazyk a školní dovednosti</h3>
-          <p class="muted">Praktické zkušenosti se základními programy pro dokumentaci, návrh a simulaci elektrických obvodů, i s tvorbou jednoduchých webů a UI prototypů.</p>
-        </section>
-
-        <aside class="panel" id="summary">
-          <h3>Rychlé info</h3>
-          <p class="meta"><strong>Obor:</strong> Elektrotechnika — automatizace</p>
-          <p class="meta"><strong>Motto:</strong> Když něco dělám, dělám to naplno.</p>
-          <p class="meta"><strong>Jazyk:</strong> Čeština</p>
-          <p class="meta"><strong>Barvy:</strong> černá, tmavě šedá, červená akcent</p>
-        </aside>
+        </div>
+        <div class="skill-list" aria-label="Seznam dovedností">
+          <span class="skill">HTML</span>
+          <span class="skill">CSS</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Git / GitHub</span>
+          <span class="skill">FluidSIM</span>
+          <span class="skill">Arduino</span>
+          <span class="skill">RoboPlus</span>
+          <span class="skill">ProfiCAD</span>
+          <span class="skill">Word</span>
+          <span class="skill">PowerPoint</span>
+          <span class="skill">Excel</span>
+          <span class="skill">Pájení</span>
+          <span class="skill">Měření</span>
+          <span class="skill">Figma</span>
+          <span class="skill">Canva</span>
+          <span class="skill">Photoshop</span>
+          <span class="skill">Angličtina</span>
+          <span class="skill">Čeština</span>
+          <span class="skill">Základy ruštiny</span>
+        </div>
       </div>
 
-      <section class="panel" id="projekty">
-        <h2>Projekty a úspěchy</h2>
-        <div class="projects">
-          <div class="project" aria-labelledby="proj1">
-            <h4 id="proj1">Stolní tenis — soutěže</h4>
-            <p>Sportovní úspěchy v regionálních soutěžích stolního tenisu; největší úspěch: 2. místo v krajském přeboru v dané kategorii.</p>
-            <div style="margin-top:8px"><span class="badge">Sport</span> <span class="badge">2023</span></div>
+      <aside class="card info-box" aria-label="Rychlé údaje">
+        <div class="section-header" style="margin-bottom: 0;">
+          <h2 style="font-size:1.35rem;">Rychlé info</h2>
+        </div>
+
+        <div class="info-row">
+          <strong>Obor</strong>
+          <span>Elektrotechnika</span>
+        </div>
+
+        <div class="info-row">
+          <strong>Zaměření</strong>
+          <span>Automatizace</span>
+        </div>
+
+        <div class="info-row">
+          <strong>Motto</strong>
+          <span>Když něco dělám, dělám to naplno.</span>
+        </div>
+
+        <div class="info-row">
+          <strong>Barvy</strong>
+          <span>Černá, šedá, červená</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="projekty">
+      <div class="section-header">
+        <h2>Moje projekty a úspěchy</h2>
+        <span>Co jsem vytvořil a čeho jsem dosáhl</span>
+      </div>
+
+      <div class="project-list">
+        <article class="project">
+          <h3>Stolní tenis – soutěže</h3>
+          <p>
+            V minulosti jsem se účastnil soutěží v stolním tenise a získal několik medailí.
+            Největším úspěchem je 2. místo v krajském přeboru v mé kategorii.
+          </p>
+          <div class="project-footer">
+            <span class="tag">Sport</span>
+            <span class="tag">2023</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <h3>Školní portfolio</h3>
+          <p>
+            Vytvořil jsem vlastní webové portfolio s responzivním designem, moderním vzhledem a animovaným pozadím.
+            Web je připravený pro prezentaci mých dovedností a projektů.
+          </p>
+          <div class="project-footer">
+            <span class="tag">Web</span>
+            <span class="tag">2024</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <h3>Elektronika a automatizace</h3>
+          <p>
+            S prací s Arduino, FluidSIM a ProfiCAD jsem se seznámil během školních projektů a cvičení,
+            kde jsem získal základy praktické automatizace a elektronických systémů.
+          </p>
+          <div class="project-footer">
+            <span class="tag">Hardware</span>
+            <span class="tag">Automation</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section card future-card" id="budoucnost">
+      <div class="section-header">
+        <h2>Moje budoucnost</h2>
+      </div>
+      <p>
+        Po škole bych chtěl najít práci v oboru automatizace nebo v technické oblasti, kde mohu využít své znalosti z elektrotechniky,
+        měření a moderních technologií. Chci se dále rozvíjet ve webových technologiích, automatizaci a v praktických projektech,
+        které přinášejí reálný přínos.
+      </p>
+    </section>
+
+    <section class="section card content-card" id="sport">
+      <div class="section-header">
+        <h2>Sport — oblíbené týmy</h2>
+      </div>
+      <p class="muted">Moje oblíbené týmy a jezdci v jednotlivých sportech:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(214,40,40,0.04), rgba(255,255,255,0.01));border:1px solid rgba(214,40,40,0.12)">
+          <strong>Formule 1</strong>
+          <div class="muted">Tým: Ferrari</div>
+          <div class="muted">Jezdec: Charles Leclerc</div>
+        </div>
+
+        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">
+          <strong>Hokej</strong>
+          <div class="muted">New York Rangers</div>
+          <div class="muted">Sparta Praha</div>
+          <div class="muted">Mountfield HK (Hradec Králové)</div>
+        </div>
+
+        <div style="min-width:220px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)">
+          <strong>Fotbal</strong>
+          <div class="muted">Sparta Praha</div>
+          <div class="muted">FC Barcelona</div>
+          <div class="muted">Liverpool FC</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card contact-card" id="kontakt">
+      <div class="section-header">
+        <h2>Kontakt</h2>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-list">
+          <div class="contact-item">
+            <strong>Instagram</strong>
+            <a href="https://instagram.com/lukas_kycelt" target="_blank" rel="noreferrer">lukas_kycelt</a>
           </div>
 
-          <div class="project" aria-labelledby="proj2">
-            <h4 id="proj2">Školní web / portfólio</h4>
-            <p>Vytvoření školního projektu — jednostránkové portfolio s responzivním designem a animovaným pozadím.</p>
-            <div style="margin-top:8px"><span class="badge">Škola</span> <span class="badge">2024</span></div>
+          <div class="contact-item">
+            <strong>GitHub</strong>
+            <a href="https://github.com/lukkycelt-ctrl" target="_blank" rel="noreferrer">lukkycelt-ctrl</a>
           </div>
 
-          <div class="project" aria-labelledby="proj3">
-            <h4 id="proj3">Elektronické a programovací projekty</h4>
-            <p>Základy práce s Arduino a automatizací, návrhy v ProfiCADu a simulace v FluidSIMu.</p>
-            <div style="margin-top:8px"><span class="badge">Hardware</span> <span class="badge">2022–2024</span></div>
+          <div class="contact-item">
+            <strong>E-mail</strong>
+            <a href="mailto:kyci@example.com">kyci@example.com</a>
           </div>
         </div>
-      </section>
 
-      <section class="panel" id="budoucnost">
-        <h2>Moje budoucnost</h2>
-        <p>Po škole bych rád našel práci v oboru automatizace nebo v blízkém technickém směru, kde zapojím své znalosti elektrotechniky, měření a programování. Chci pracovat na užitečných projektech a postupně rozvíjet své dovednosti v průmyslové elektronice a softwaru pro řízení systémů.</p>
-      </section>
-
-      <section class="panel" id="kontakt">
-        <h2>Kontakt</h2>
-        <p>Instagram: <a class="link" href="https://instagram.com/lukas_kycelt" target="_blank" rel="noopener">lukas_kycelt</a></p>
-        <p>Email: <a class="link" href="mailto:kyci@example.com">kyci@example.com</a></p>
-
-        <h4 style="margin-top:12px">Rychlý kontakt</h4>
-        <form id="contactForm" onsubmit="sendMail(event)" aria-label="Kontaktovat">
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <input id="name" placeholder="Jméno" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
-            <textarea id="message" placeholder="Krátká zpráva" rows="4" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn accent" type="submit">Odeslat (otevře email)</button>
-              <button class="btn" type="button" onclick="clearForm()">Vymazat</button>
-            </div>
-            <div id="formNote" class="muted" style="font-size:.85rem">Formulář otevře tvůj e-mailový klient — na serverové odesílání není napojeno.</div>
-          </div>
+        <form class="contact-form" id="contactForm" onsubmit="sendMail(event)">
+          <input id="name" type="text" placeholder="Jméno" aria-label="Jméno" />
+          <textarea id="message" placeholder="Krátká zpráva" aria-label="Krátká zpráva"></textarea>
+          <button class="btn btn-primary" type="submit">Odeslat</button>
         </form>
-      </section>
+      </div>
+    </section>
 
-      <footer>
-        <div>© Lukáš "Kyci" Kycelt — Portfolio</div>
-        <div class="muted">Stránka je veřejná; pro hodnocení do Teams použij odkaz s tvým jménem.</div>
-      </footer>
-    </main>
+    <footer>
+      © 2024 Lukáš "Kyci" Kycelt — Portfolio
+    </footer>
   </div>
 
   <script>
     const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+
     themeToggle.addEventListener('click', () => {
-      const isLight = document.documentElement.style.getPropertyValue('--bg') === '#ffffff';
-      if(isLight){
-        document.documentElement.style.setProperty('--bg','#0b0b0b');
-        document.documentElement.style.setProperty('--panel','#0f1112');
-        document.documentElement.style.setProperty('--muted','#9aa0a6');
-        document.documentElement.style.setProperty('--matrix','#00ff66');
-        document.documentElement.style.setProperty('--accent','#c62828');
-        document.documentElement.style.setProperty('color-scheme','dark');
-        themeToggle.setAttribute('aria-pressed','false');
+      const dark = getComputedStyle(root).getPropertyValue('color-scheme') === 'dark';
+      if (dark) {
+        root.style.setProperty('--bg', '#f3f3f3');
+        root.style.setProperty('--panel', 'rgba(255,255,255,0.9)');
+        root.style.setProperty('--panel-2', 'rgba(0,0,0,0.02)');
+        root.style.setProperty('--text', '#101010');
+        root.style.setProperty('--muted', '#4b4f59');
+        root.style.setProperty('--matrix', '#0f8b49');
+        root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
+        root.style.setProperty('--nav-bg', 'rgba(255,255,255,0.76)');
+        root.style.setProperty('--card', 'rgba(0,0,0,0.02)');
+        root.style.setProperty('color-scheme', 'light');
       } else {
-        document.documentElement.style.setProperty('--bg','#ffffff');
-        document.documentElement.style.setProperty('--panel','#f7f7f7');
-        document.documentElement.style.setProperty('--muted','#374151');
-        document.documentElement.style.setProperty('--matrix','#0b7a0b');
-        document.documentElement.style.setProperty('--accent','#c62828');
-        document.documentElement.style.setProperty('color-scheme','light');
-        themeToggle.setAttribute('aria-pressed','true');
+        root.style.setProperty('--bg', '#090909');
+        root.style.setProperty('--panel', 'rgba(17, 17, 17, 0.9)');
+        root.style.setProperty('--panel-2', 'rgba(255,255,255,0.02)');
+        root.style.setProperty('--text', '#f2f2f2');
+        root.style.setProperty('--muted', '#b3b8c3');
+        root.style.setProperty('--matrix', '#0afc6d');
+        root.style.setProperty('--border', 'rgba(255,255,255,0.08)');
+        root.style.setProperty('--nav-bg', 'rgba(10,10,10,0.72)');
+        root.style.setProperty('--card', 'rgba(255,255,255,0.02)');
+        root.style.setProperty('color-scheme', 'dark');
       }
     });
 
-    function sendMail(e){
-      e.preventDefault();
+    function sendMail(event) {
+      event.preventDefault();
       const name = encodeURIComponent(document.getElementById('name').value || 'Kontakt');
       const message = encodeURIComponent(document.getElementById('message').value || '');
       const subject = encodeURIComponent('Kontakt z portfolia — ' + name);
       const body = encodeURIComponent(message + '\n\n---\nOdesláno z portfolia Lukáš "Kyci" Kycelt');
-      const mail = 'kyci@example.com';
-      window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:kyci@example.com?subject=${subject}&body=${body}`;
     }
-    function clearForm(){ document.getElementById('name').value=''; document.getElementById('message').value=''; }
 
-    (function(){
+    (function () {
       const canvas = document.getElementById('matrix-canvas');
       const ctx = canvas.getContext('2d');
-      let W = canvas.width = innerWidth;
-      let H = canvas.height = innerHeight;
-      const fontSize = Math.max(12, Math.round(W / 120));
-      const columns = Math.floor(W / fontSize);
-      const drops = new Array(columns).fill(1);
-      const chars = '0123456789#@$%&ABCDEFGHIJKLMNOPRSTUVWXYZ';
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = window.innerHeight;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*';
+      const fontSize = Math.max(12, Math.floor(w / 120));
+      const columns = Math.floor(w / fontSize);
+      const drops = Array(columns).fill(1);
 
-      function resize(){
-        W = canvas.width = innerWidth;
-        H = canvas.height = innerHeight;
-      }
-      addEventListener('resize', resize);
-
-      function draw(){
+      function render() {
         if (reducedMotion) return;
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-        ctx.fillRect(0, 0, W, H);
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.10)';
+        ctx.fillRect(0, 0, w, h);
         ctx.font = fontSize + 'px monospace';
-        for(let i=0;i<drops.length;i++){
-          const text = chars.charAt(Math.floor(Math.random()*chars.length));
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
           const x = i * fontSize;
           const y = drops[i] * fontSize;
-          ctx.fillStyle = 'rgba(0,255,102,0.9)';
+
+          // primary green stream
+          ctx.fillStyle = 'rgba(10, 252, 109, 0.9)';
           ctx.fillText(text, x, y);
-          ctx.fillStyle = 'rgba(0,255,102,0.4)';
-          ctx.fillText(text, x, y - fontSize/2);
-          if(y > H && Math.random() > 0.975) drops[i] = 0;
+
+          // subtle red accent glow occasionally
+          if (Math.random() > 0.995) {
+            ctx.fillStyle = 'rgba(214,40,40,0.18)';
+            ctx.fillText(text, x + 1, y + 1);
+          }
+
+          if (y > h && Math.random() > 0.98) {
+            drops[i] = 0;
+          }
+
           drops[i]++;
         }
       }
 
-      let fps = 30;
-      let interval = 1000 / fps;
-      let then = Date.now();
-      function loop(){
+      function loop() {
+        render();
         requestAnimationFrame(loop);
-        const now = Date.now();
-        const delta = now - then;
-        if(delta > interval){
-          then = now - (delta % interval);
-          draw();
-        }
       }
-      if(!reducedMotion){
-        loop();
+
+      if (!reducedMotion) {
+        requestAnimationFrame(loop);
       } else {
+        // fallback static dots
         ctx.fillStyle = '#000';
-        ctx.fillRect(0,0,W,H);
-        ctx.fillStyle = 'rgba(0,255,102,0.6)';
+        ctx.fillRect(0,0,w,h);
+        ctx.fillStyle = 'rgba(10,252,109,0.6)';
         ctx.font = fontSize + 'px monospace';
-        for(let i=0;i<1000;i++){
-          ctx.fillText(chars.charAt(Math.floor(Math.random()*chars.length)), Math.random()*W, Math.random()*H);
-        }
+        for (let i=0;i<1000;i++) ctx.fillText(chars[Math.floor(Math.random()*chars.length)], Math.random()*w, Math.random()*h);
       }
+
+      window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
     })();
   </script>
 </body>

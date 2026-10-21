@@ -32,13 +32,40 @@
     body {
       margin: 0;
       background:
-        radial-gradient(circle at 10% 20%, rgba(214,40,40,0.08), transparent 18%),
-        radial-gradient(circle at 80% 10%, rgba(28,255,106,0.06), transparent 12%),
-        linear-gradient(180deg, #07090b 0%, #0d1115 100%);
+        radial-gradient(circle at 12% 18%, rgba(225, 6, 0, 0.18), transparent 20%),
+        radial-gradient(circle at 80% 22%, rgba(21, 76, 151, 0.18), transparent 22%),
+        radial-gradient(circle at 62% 82%, rgba(196, 11, 29, 0.16), transparent 20%),
+        radial-gradient(circle at 30% 70%, rgba(242, 140, 15, 0.12), transparent 18%),
+        linear-gradient(180deg, #05070a 0%, #0b1016 30%, #111820 100%);
       color: var(--text);
       line-height: 1.6;
       font-size: 16px;
       overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg,
+          rgba(225,6,0,0.06) 0 14%,
+          rgba(21,76,151,0.06) 14% 28%,
+          rgba(196,11,29,0.06) 28% 42%,
+          rgba(242,140,15,0.06) 42% 58%,
+          rgba(0,87,184,0.06) 58% 74%,
+          rgba(194,9,9,0.06) 74% 88%,
+          rgba(255,255,255,0.03) 88% 100%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(255,255,255,0.02) 0,
+          rgba(255,255,255,0.02) 1px,
+          transparent 1px,
+          transparent 18px
+        );
+      mix-blend-mode: screen;
     }
 
     a { color: inherit; }
@@ -52,8 +79,8 @@
       height: 100%;
       display: block;
       pointer-events: none;
-      opacity: 0.85;
-      background: radial-gradient(circle at 50% 0%, rgba(214,40,40,0.06), transparent 28%);
+      opacity: 0.9;
+      background: radial-gradient(circle at 50% 0%, rgba(214,40,40,0.06), transparent 28%), #000;
     }
 
     .page {
@@ -850,7 +877,7 @@
       function render() {
         if (reducedMotion) return;
 
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.10)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
         ctx.fillRect(0, 0, w, h);
         ctx.font = fontSize + 'px monospace';
 
@@ -859,15 +886,15 @@
           const x = i * fontSize;
           const y = drops[i] * fontSize;
 
-          ctx.fillStyle = 'rgba(28, 255, 106, 0.9)';
+          ctx.fillStyle = 'rgba(110, 255, 160, 0.7)';
           ctx.fillText(text, x, y);
 
-          if (Math.random() > 0.995) {
-            ctx.fillStyle = 'rgba(214, 40, 40, 0.2)';
+          if (Math.random() > 0.994) {
+            ctx.fillStyle = 'rgba(214, 40, 40, 0.16)';
             ctx.fillText(text, x + 1, y + 1);
           }
 
-          if (y > h && Math.random() > 0.98) {
+          if (y > h && Math.random() > 0.983) {
             drops[i] = 0;
           }
 
@@ -875,8 +902,14 @@
         }
       }
 
-      function loop() {
-        render();
+      let lastTime = 0;
+      const interval = 90;
+      function loop(ts) {
+        const delta = ts - lastTime;
+        if (delta >= interval) {
+          lastTime = ts;
+          render();
+        }
         requestAnimationFrame(loop);
       }
 
@@ -885,7 +918,7 @@
       } else {
         ctx.fillStyle = '#000';
         ctx.fillRect(0,0,w,h);
-        ctx.fillStyle = 'rgba(28,255,106,0.7)';
+        ctx.fillStyle = 'rgba(110,255,160,0.6)';
         ctx.font = fontSize + 'px monospace';
         for (let i = 0; i < 1000; i++) {
           ctx.fillText(chars[Math.floor(Math.random() * chars.length)], Math.random() * w, Math.random() * h);

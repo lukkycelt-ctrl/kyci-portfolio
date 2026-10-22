@@ -38,8 +38,8 @@
         radial-gradient(circle at 30% 70%, rgba(242, 140, 15, 0.10), transparent 18%),
         linear-gradient(180deg, #05070a 0%, #0b1016 30%, #111820 100%);
       color: var(--text);
-      line-height: 1.6;
-      font-size: 16px;
+      line-height: 1.7;
+      font-size: 18px;
       overflow-x: hidden;
     }
 
@@ -145,7 +145,7 @@
     .nav-links a {
       text-decoration: none;
       color: var(--muted);
-      font-size: 0.93rem;
+      font-size: 0.95rem;
       transition: color 0.2s ease;
     }
 
@@ -207,7 +207,7 @@
     .eyebrow {
       display: inline-block;
       margin-bottom: 12px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--green);
@@ -215,7 +215,7 @@
     }
 
     h1 {
-      font-size: clamp(2.3rem, 4vw, 4.5rem);
+      font-size: clamp(2.7rem, 4vw, 4.8rem);
       line-height: 1.08;
       letter-spacing: -0.06em;
       margin: 0 0 12px;
@@ -224,7 +224,7 @@
     .hero-copy p {
       margin: 0 0 18px;
       color: var(--muted);
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       max-width: 62ch;
     }
 
@@ -251,13 +251,13 @@
 
     .mini-stat strong {
       display: block;
-      font-size: 1.5rem;
+      font-size: 1.55rem;
       margin-bottom: 2px;
       color: var(--text);
     }
 
     .mini-stat span {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       color: var(--muted);
     }
 
@@ -287,13 +287,14 @@
     .profile-card h3 {
       margin: 0 0 12px;
       text-align: center;
-      font-size: 1.4rem;
+      font-size: 1.45rem;
     }
 
     .profile-card p {
       color: var(--muted);
       text-align: center;
       margin: 0;
+      font-size: 1rem;
     }
 
     .contact-inline {
@@ -311,7 +312,7 @@
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.02em;
     }
@@ -330,13 +331,13 @@
 
     .section-header h2 {
       margin: 0;
-      font-size: clamp(1.7rem, 2.2vw, 2.25rem);
+      font-size: clamp(1.8rem, 2.3vw, 2.35rem);
       letter-spacing: -0.04em;
     }
 
     .section-header span {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.94rem;
     }
 
     .content-card {
@@ -346,7 +347,7 @@
     .content-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 1.06rem;
     }
 
     .grid-2 {
@@ -368,7 +369,7 @@
       color: var(--text);
       border-radius: 12px;
       padding: 10px 12px;
-      font-size: 0.9rem;
+      font-size: 0.94rem;
       font-weight: 700;
     }
 
@@ -393,13 +394,14 @@
 
     .info-row strong {
       color: var(--text);
-      font-size: 0.98rem;
+      font-size: 1rem;
     }
 
     .info-row span {
       color: var(--muted);
       text-align: right;
       max-width: 180px;
+      font-size: 0.98rem;
     }
 
     .project-list {
@@ -417,13 +419,13 @@
 
     .project h3 {
       margin: 0 0 10px;
-      font-size: 1.12rem;
+      font-size: 1.16rem;
     }
 
     .project p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .project-footer {
@@ -440,7 +442,7 @@
     .future-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 1.02rem;
+      font-size: 1.04rem;
     }
 
     .sport-grid {
@@ -460,12 +462,12 @@
     .sport-card strong {
       display: block;
       margin-bottom: 10px;
-      font-size: 1rem;
+      font-size: 1.04rem;
     }
 
     .sport-card .muted-line {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       display: block;
       margin-bottom: 4px;
     }
@@ -492,6 +494,7 @@
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.015);
       border-radius: 14px;
+      font-size: 1rem;
     }
 
     .contact-item strong {
@@ -518,6 +521,7 @@
       color: var(--text);
       font: inherit;
       padding: 12px 14px;
+      font-size: 1rem;
     }
 
     .contact-form textarea {
@@ -562,7 +566,7 @@
       padding: 14px 0 0;
       text-align: center;
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.96rem;
     }
 
     @media (max-width: 930px) {
@@ -868,12 +872,13 @@
       window.history.scrollRestoration = 'manual';
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    function resetToTop() {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
 
+    resetToTop();
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      }, 0);
+      setTimeout(resetToTop, 0);
     });
 
     function toggleBackToTop() {

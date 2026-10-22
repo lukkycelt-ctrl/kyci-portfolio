@@ -525,6 +525,38 @@
       resize: vertical;
     }
 
+    .back-to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      font-size: 1.7rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(214,40,40,0.35);
+      opacity: 0;
+      transform: translateY(18px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      z-index: 100;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover,
+    .back-to-top:focus-visible {
+      box-shadow: 0 16px 32px rgba(214,40,40,0.45);
+    }
+
     footer {
       margin-top: 28px;
       padding: 14px 0 0;
@@ -825,9 +857,27 @@
     </footer>
   </div>
 
+  <button class="back-to-top" id="backToTop" aria-label="Nahoru">↑</button>
+
   <script>
     const themeToggle = document.getElementById('themeToggle');
     const root = document.documentElement;
+    const backToTop = document.getElementById('backToTop');
+
+    function toggleBackToTop() {
+      const shouldShow = window.scrollY > 300;
+      backToTop.classList.toggle('visible', shouldShow);
+    }
+
+    window.addEventListener('scroll', toggleBackToTop);
+    toggleBackToTop();
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
 
     themeToggle.addEventListener('click', () => {
       const dark = getComputedStyle(root).getPropertyValue('color-scheme') === 'dark';

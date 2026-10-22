@@ -482,15 +482,24 @@
       text-transform: uppercase;
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
 
-    .team-badge:before,
-    .team-badge:after {
+    .team-badge::before,
+    .team-badge::after {
       content: "";
       position: absolute;
       left: 0;
       width: 100%;
       height: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .team-badge > span,
+    .team-badge {
+      z-index: 2;
+      position: relative;
     }
 
     .team-badge.ferrari { background: linear-gradient(135deg, #d71f26, #a6121b); }
@@ -503,14 +512,12 @@
       color: #fff;
       font-size: 0.66rem;
     }
-    .team-badge.hkr:before {
+    .team-badge.hkr::before {
       top: 0;
-      height: 50%;
       background: linear-gradient(180deg, #d91c2f, #b40722);
     }
-    .team-badge.hkr:after {
+    .team-badge.hkr::after {
       bottom: 0;
-      height: 50%;
       background: #111;
     }
     .team-badge.monaco {
@@ -518,14 +525,12 @@
       color: #111;
       font-size: 0.68rem;
     }
-    .team-badge.monaco:before {
+    .team-badge.monaco::before {
       top: 0;
-      height: 50%;
       background: linear-gradient(180deg, #cf1328, #a0071b);
     }
-    .team-badge.monaco:after {
+    .team-badge.monaco::after {
       bottom: 0;
-      height: 50%;
       background: #fff;
     }
 

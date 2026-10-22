@@ -464,6 +464,7 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .team-badge {
@@ -486,6 +487,7 @@
     .team-badge.sparta { background: linear-gradient(135deg, #e7cd79, #3a2b16); }
     .team-badge.barca { background: linear-gradient(135deg, #a50044, #0846a0); }
     .team-badge.liverpool { background: linear-gradient(135deg, #cb2228, #4f1d19); }
+    .team-badge.hkr { background: linear-gradient(135deg, #0e3a5b, #ffca28); color: #0b1420; }
 
     .sport-card strong {
       display: block;
@@ -841,9 +843,10 @@
         </div>
 
         <div class="sport-card">
-          <div class="team-badges" aria-label="New York Rangers a Sparta Praha logo">
+          <div class="team-badges" aria-label="New York Rangers, Sparta Praha a Hradec Králové logo">
             <span class="team-badge rangers">NYR</span>
             <span class="team-badge sparta">SP</span>
+            <span class="team-badge hkr">HK</span>
           </div>
           <strong>Hokej</strong>
           <span class="muted-line">New York Rangers</span>
@@ -998,10 +1001,10 @@
 
           if (Math.random() > 0.995) {
             ctx.fillStyle = 'rgba(214, 40, 40, 0.10)';
-            ctx.fillText(text, x + 1, y + 1);
+            ctx.fillText(text, x, y);
           }
 
-          if (y > h && Math.random() > 0.985) {
+          if (y > h && Math.random() > 0.975) {
             drops[i] = 0;
           }
 
@@ -1022,14 +1025,6 @@
 
       if (!reducedMotion) {
         requestAnimationFrame(loop);
-      } else {
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0,0,w,h);
-        ctx.fillStyle = 'rgba(110,255,160,0.5)';
-        ctx.font = fontSize + 'px monospace';
-        for (let i = 0; i < 1000; i++) {
-          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], Math.random() * w, Math.random() * h);
-        }
       }
 
       window.addEventListener('resize', () => {

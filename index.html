@@ -864,6 +864,18 @@
     const root = document.documentElement;
     const backToTop = document.getElementById('backToTop');
 
+    if (window.history && window.history.scrollRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }, 0);
+    });
+
     function toggleBackToTop() {
       const shouldShow = window.scrollY > 300;
       backToTop.classList.toggle('visible', shouldShow);

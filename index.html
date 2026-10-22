@@ -480,6 +480,17 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
       color: #fff;
       text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-badge:before,
+    .team-badge:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
     }
 
     .team-badge.ferrari { background: linear-gradient(135deg, #d71f26, #a6121b); }
@@ -488,14 +499,34 @@
     .team-badge.barca { background: linear-gradient(135deg, #a50044, #0846a0); }
     .team-badge.liverpool { background: linear-gradient(135deg, #cb2228, #4f1d19); }
     .team-badge.hkr {
-      background: linear-gradient(180deg, #d91c2f 0 50%, #111111 50% 100%);
+      background: #111;
       color: #fff;
       font-size: 0.66rem;
     }
+    .team-badge.hkr:before {
+      top: 0;
+      height: 50%;
+      background: linear-gradient(180deg, #d91c2f, #b40722);
+    }
+    .team-badge.hkr:after {
+      bottom: 0;
+      height: 50%;
+      background: #111;
+    }
     .team-badge.monaco {
-      background: linear-gradient(180deg, #cf1328 0 50%, #ffffff 50% 100%);
+      background: #fff;
       color: #111;
       font-size: 0.68rem;
+    }
+    .team-badge.monaco:before {
+      top: 0;
+      height: 50%;
+      background: linear-gradient(180deg, #cf1328, #a0071b);
+    }
+    .team-badge.monaco:after {
+      bottom: 0;
+      height: 50%;
+      background: #fff;
     }
 
     .sport-card strong {

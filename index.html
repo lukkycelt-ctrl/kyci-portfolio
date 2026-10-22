@@ -459,6 +459,34 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     }
 
+    .team-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .team-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .team-badge.ferrari { background: linear-gradient(135deg, #d71f26, #a6121b); }
+    .team-badge.rangers { background: linear-gradient(135deg, #d9dfe6, #465a78); color: #0b1420; }
+    .team-badge.sparta { background: linear-gradient(135deg, #e7cd79, #3a2b16); }
+    .team-badge.barca { background: linear-gradient(135deg, #a50044, #0846a0); }
+    .team-badge.liverpool { background: linear-gradient(135deg, #cb2228, #4f1d19); }
+
     .sport-card strong {
       display: block;
       margin-bottom: 10px;
@@ -804,12 +832,19 @@
       </div>
       <div class="sport-grid">
         <div class="sport-card">
+          <div class="team-badges" aria-label="Ferrari logo">
+            <span class="team-badge ferrari">F</span>
+          </div>
           <strong>Formule 1</strong>
           <span class="muted-line">Tým: Ferrari</span>
           <span class="muted-line">Jezdec: Charles Leclerc</span>
         </div>
 
         <div class="sport-card">
+          <div class="team-badges" aria-label="New York Rangers a Sparta Praha logo">
+            <span class="team-badge rangers">NYR</span>
+            <span class="team-badge sparta">SP</span>
+          </div>
           <strong>Hokej</strong>
           <span class="muted-line">New York Rangers</span>
           <span class="muted-line">Sparta Praha</span>
@@ -817,6 +852,11 @@
         </div>
 
         <div class="sport-card">
+          <div class="team-badges" aria-label="Sparta Praha, Barcelona a Liverpool logo">
+            <span class="team-badge sparta">SP</span>
+            <span class="team-badge barca">FCB</span>
+            <span class="team-badge liverpool">LFC</span>
+          </div>
           <strong>Fotbal</strong>
           <span class="muted-line">Sparta Praha</span>
           <span class="muted-line">FC Barcelona</span>
